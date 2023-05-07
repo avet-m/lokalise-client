@@ -52,6 +52,8 @@ function mapFileToLocale(file: File): Locale | undefined {
     return new Locale(file.path, JSON.parse(file.data.toString('utf8')));
   } catch (error) {
     logMessage(file.path, 'error');
-    logMessage(error, 'error');
+    if (typeof error === 'string') {
+      logMessage(error, 'error');
+    }
   }
 }

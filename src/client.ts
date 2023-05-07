@@ -92,10 +92,7 @@ export class LokaliseClient {
   private async fetchProject({ prefix, id, ...shared }: ProjectConfig) {
     const { delimiter } = this.config;
 
-    const response: {
-      bundle_url: string;
-      project_id: string;
-    } = await this.api.files.download(id, {
+    const response = await this.api.files().download(id, {
       bundle_structure: '%LANG_ISO%',
       export_empty_as: 'base',
       format: 'json',
@@ -105,7 +102,10 @@ export class LokaliseClient {
       plural_format: 'icu',
       replace_breaks: false,
       ...shared,
-    });
+    }) as {
+      bundle_url: string;
+      project_id: string;
+    };
 
     const locales = await fetchLocales(response.bundle_url);
 
